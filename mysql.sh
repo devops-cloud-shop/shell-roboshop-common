@@ -12,7 +12,7 @@ VALIDATE $? "Enabling mysqld"
 systemctl start mysqld &>>$LOG_FILE
 VALIDATE $? "Starting mysql server"
 
-mysql_secure_installation --set-root-pass RoboShop@1
+mysql_secure_installation --set-root-pass RoboShop@1 &>>$LOG_FILE
 VALIDATE $? "Setting up root password"
 
 print_total_time
