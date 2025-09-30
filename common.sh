@@ -10,6 +10,7 @@ LOG_FOLDER="/var/log/shell-roboshop"
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 SCRIPT_DIR=$PWD
 MONGODB_HOST=mongodb.prav4cloud.online
+MYSQL_HOST=mysql.prav4cloud.online
 LOG_FILE="$LOG_FOLDER/$SCRIPT_NAME.log" #/var/log/shell-roboshop/15-logs.log
 START_TIME=$(date +%s)
 
@@ -69,6 +70,15 @@ app_setup(){
 
     unzip /tmp/$app_name.zip &>>$LOG_FILE
     VALIDATE $? "unzip the $app_name code"
+}
+
+java_setup(){
+    dnf install maven -y &>>$LOG_FILE
+    VALIDATE $? "Installing Maven"
+    mvn clean package &>>$LOG_FILE
+    VALIDATE $? "Packing the appliction"
+    mv target/shipping-1.0.jar shipping.jar &>>$LOG_FILE
+    VALIDATE $? "Renaming the artifact"
 }
 
 systemd_setup(){
